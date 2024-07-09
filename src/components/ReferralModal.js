@@ -23,7 +23,7 @@ const ReferralModal = ({ isOpen, onClose }) => {
     }),
     onSubmit: async (values,{resetForm}) => {
         try {
-          await axios.post('http://localhost:5000/api/referrals', values);
+          await axios.post('https://accredian-backend-task-6izj.onrender.com/api/referrals', values);
           console.log('Form data submitted:', values);
 resetForm();
 
