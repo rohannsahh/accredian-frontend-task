@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 const ReferralModal = ({ isOpen, onClose }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
   const formik = useFormik({
     initialValues: {
       referrerName: '',
@@ -21,17 +25,25 @@ const ReferralModal = ({ isOpen, onClose }) => {
       refereeEmail: Yup.string().email('Invalid email address').required('Referee email is required'),
       refereeMobile: Yup.string().matches(/^[0-9]+$/, 'Must be a number').min(10, 'Must be at least 10 digits').required('Referee mobile number is required'),
     }),
-    onSubmit: async (values,{resetForm}) => {
-        try {
-          await axios.post('https://accredian-backend-task-6izj.onrender.com/api/referrals', values);
-          console.log('Form data submitted:', values);
-resetForm();
+    onSubmit: async (values, { resetForm }) => {
+      setIsLoading(true);
+      setMessage('');
+      try {
+        await axios.post('https://accredian-backend-task-6izj.onrender.com/api/referrals', values);
+        setMessage('Form data submitted successfully');
+        resetForm();
+        setTimeout(() => {
+            onClose(); 
+            setMessage('');
 
-          onClose(); 
-        } catch (error) {
-          console.error('Error submitting form:', error);
-        }
+          }, 2000);
+      } catch (error) {
+        setMessage('Error submitting form');
+        console.error('Error submitting form:', error);
+      } finally {
+        setIsLoading(false);
       }
+    }
   });
 
   if (!isOpen) return null;
@@ -39,7 +51,7 @@ resetForm();
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4">Refer a Friend</h2>
+        <h2 className="text-2xl text-center font-bold mb-8">Refer a Friend</h2>
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700">Referrer Name</label>
@@ -123,12 +135,19 @@ resetForm();
             </button>
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center"
+              disabled={isLoading}
             >
+              {isLoading && <AiOutlineLoading3Quarters className="animate-spin mr-2" />}
               Submit
             </button>
           </div>
         </form>
+        {message && (
+          <div className={`mt-4 ${message.includes('Error') ? 'text-red-500' : 'text-green-500'}`}>
+            {message}
+          </div>
+        )}
       </div>
     </div>
   );

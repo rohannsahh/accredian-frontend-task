@@ -17,7 +17,7 @@ const Navbar = () => {
           <a href="/" className="text-gray-600 py-1 hover:text-blue-600">Refer & Earn</a>
           <a href="/" className="text-gray-600 py-1 hover:text-blue-600">Resources</a>
           <a href="/" className="text-gray-600 py-1 hover:text-blue-600">About Us</a>
-          <button className="text-gray-600 hover:text-blue-600">Login</button>
+          <button className="text-gray-600 bg-gray-200 px-4 py-1 rounded hover:text-blue-600">Login</button>
           <button className="bg-blue-600 text-white py-1 px-4 rounded hover:bg-blue-700">Try for free</button>
         </div>
         <div className="md:hidden">
@@ -33,7 +33,7 @@ const Navbar = () => {
           <a href="/" className="block px-4 py-2 text-gray-600 hover:text-blue-600">Refer & Earn</a>
           <a href="/" className="block px-4 py-2 text-gray-600 hover:text-blue-600">Resources</a>
           <a href="/" className="block px-4 py-2 text-gray-600 hover:text-blue-600">About Us</a>
-          <button className="block px-4 py-2 text-gray-600 hover:text-blue-600">Login</button>
+          <button className="block px-4 py-2 text-gray-600 bg-gray-200 rounded hover:text-blue-600">Login</button>
           <button className="block w-full text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Try for free</button>
         </div>
       )}
